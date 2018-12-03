@@ -7,7 +7,7 @@ pragma solidity ^0.4.24;
 contract Atm{
     
     // access restriction
-    address public owner;
+    address owner;
     
     // guard checks
     uint donate_amount = 2;
@@ -31,25 +31,29 @@ contract Atm{
     
     // checks effects interactions
     function deposit() onlyOwner public payable {
+        require(isStopped==false);
         balances[msg.sender] = msg.value;
+    }
+    
+    function balance() onlyOwner public view returns (uint) {
+        require(isStopped==false);
+        return balances[msg.sender];
     }
     
     // checks effects interactions, guard check, pull over push, secure ether transfer
     function withdraw(uint amount) onlyOwner public {
-        require(balances[msg.sender] >= amount);
+        require(balances[msg.sender] >= amount && isStopped==false);
         balances[msg.sender] -= amount;
         msg.sender.transfer(amount);
     }
     
     //emergency stop
-    function stopContract() public {
-        require(msg.sender == owner);
+    function stopContract() onlyOwner public {
         isStopped = true;
     }
     
     //emergency stop
-    function resumeContract() public {
-        require(msg.sender == owner);
+    function resumeContract()  onlyOwner public {
         isStopped = false;
     }
 }
