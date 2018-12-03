@@ -1,6 +1,8 @@
 /*
-    Design Patterns Security Restrictions Examples
+    The simplest way to implement the Design Patterns Security Restrictions
     Author: LLEGO, JOHN MACHY R.
+
+    Referenced from: ConsenSys Presentation, ConsenSys, Inc (2018)
 */
 pragma solidity ^0.4.24;
 
